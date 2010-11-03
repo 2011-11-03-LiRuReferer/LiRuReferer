@@ -1,0 +1,19 @@
+ИНСТРУКЦИЯ ПО УСТАНОВКЕ ДЛЯ WINDOWS
+
+
+Предварительно, нужно чтобы было установленно:
+
+* gtk2-runtime
+    (см файл: "gtk2-runtime-2.22.0-2010-10-21-ash.exe" ..
+        или в интернете более свежую версию)
+
+* Microsoft Visual C++ 2008 Redistributable Package
+   (см. файл: "Microsoft Visual C++ 2008 Redistributable Package (x86).setup.txt" ..
+        или в интернете более свежую и подходящую версию)
+    
+    в новых Windows обычно уже нет нужды устанавливать этот пакет
+
+
+Далее, запуск осуществляется через: "start.bat" или "start_with_console.bat"
+
+
