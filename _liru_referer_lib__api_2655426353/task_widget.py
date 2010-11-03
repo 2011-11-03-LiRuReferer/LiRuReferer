@@ -157,13 +157,16 @@ class TaskWidget:
         self.task_ctrl.stop()
         self.set_log('Остановлено аварийно')
     
+    def _stop_handler(self, sender):
+        if sender == self.task_ctrl:
+            self.builder.get_object('abort_button').set_sensitive(False)
+    
     def run(self):
         self.clean()
         
         self.task_ctrl = TaskCtrl(self.general_task_ctrl)
-        abort_button = self.builder.get_object('abort_button')
-        abort_button.set_sensitive(True)
-        self.task_ctrl.connect('stop', lambda sender: abort_button.set_sensitive(False))
+        self.builder.get_object('abort_button').set_sensitive(True)
+        self.task_ctrl.connect('stop', self._stop_handler)
         
         self.task = Task(
             self.task_ctrl,
