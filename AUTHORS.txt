@@ -1,0 +1,6 @@
+=========
+ Authors
+=========
+
+* Andrej A Antonov <polymorphm@gmail.com> # Wed 03 Nov 2010 15:20:56 MSK
+
