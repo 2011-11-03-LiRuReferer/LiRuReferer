@@ -15,7 +15,7 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import contextlib, random, urllib, urllib2
+import contextlib, time, random, urllib, urllib2
 
 import glib
 
@@ -44,6 +44,7 @@ class Task:
                 get_target_site,
                 get_limit,
                 get_workers,
+                get_worker_sleep=None,
                 set_successes=None,
                 set_errors=None,
                 set_log=None,
@@ -54,6 +55,7 @@ class Task:
         self.get_target_site = get_target_site
         self.get_limit = get_limit
         self.get_workers = get_workers
+        self.get_worker_sleep = get_worker_sleep
         self.set_successes = set_successes
         self.set_errors = set_errors
         self.set_log = set_log
@@ -102,6 +104,8 @@ class Task:
                 target_site = fix_url(self.get_target_site())
                 limit = self.get_limit()
                 workers = self.get_workers()
+                worker_sleep = self.get_worker_sleep() \
+                    if self.get_worker_sleep is not None else None
             except Exception as e:
                 raise StopTask(
                     'Ошибка при получении информации для задания\n\nПодробности:\n%s\n%s' % (
@@ -153,7 +157,7 @@ class Task:
                 
                 idle_add_thread(
                     self.task_ctrl.use(self.thread_target),
-                    args=[req_id, source_site, target_site]
+                    args=[req_id, source_site, target_site, worker_sleep]
                 )
                 
                 if self.used_workers < workers:
@@ -198,7 +202,7 @@ class Task:
             self.task_ctrl.stop()
             self.show_error(e)
     
-    def thread_target(self, req_id, source_site, target_site):
+    def thread_target(self, req_id, source_site, target_site, worker_sleep):
         try:
             referer = source_site
             site = target_site
@@ -227,6 +231,11 @@ class Task:
             ]
             
             body_start_sample = b'GIF89aX\x00'
+            
+            if worker_sleep:
+                # "сонливость" не None и не Zero. значит ждём это время
+                
+                time.sleep(worker_sleep)
             
             with contextlib.closing(
                 opener.open(counter_url, timeout=REQUEST_TIMEOUT)

@@ -37,6 +37,7 @@ class ParamsWidget:
         self.set_source_site('http://www.example.org/')
         self.set_limit_value(500)
         self.set_workers(10)
+        self.set_worker_sleep(1.0)
     
     def get_source_site(self):
         widget = self.builder.get_object('source_site_entry')
@@ -102,5 +103,14 @@ class ParamsWidget:
     
     def set_workers(self, value):
         widget = self.builder.get_object('workers_spinbutton')
+        widget.set_value(value)
+    
+    def get_worker_sleep(self):
+        widget = self.builder.get_object('worker_sleep_spinbutton')
+        value = widget.get_value()
+        return value
+    
+    def set_worker_sleep(self, value):
+        widget = self.builder.get_object('worker_sleep_spinbutton')
         widget.set_value(value)
 

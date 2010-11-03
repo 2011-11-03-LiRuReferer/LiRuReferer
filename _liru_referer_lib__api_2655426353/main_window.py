@@ -86,6 +86,7 @@ class MainWindow:
                 self.params_widget.get_target_sites_list(),
                 self.params_widget.get_limit(),
                 self.params_widget.get_workers(),
+                self.params_widget.get_worker_sleep(),
             )
             
             self.set_current_widget(self.task_widget)

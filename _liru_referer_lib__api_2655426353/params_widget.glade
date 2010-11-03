@@ -11,7 +11,7 @@
     <child>
       <object class="GtkTable" id="widget_table">
         <property name="visible">True</property>
-        <property name="n_rows">4</property>
+        <property name="n_rows">5</property>
         <property name="n_columns">2</property>
         <property name="column_spacing">10</property>
         <property name="row_spacing">10</property>
@@ -135,6 +135,33 @@
             <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="worker_sleep_label">
+            <property name="visible">True</property>
+            <property name="label">"Сонливость" "Рабочих" (в секундах, примерно):</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="top_attach">4</property>
+            <property name="bottom_attach">5</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="worker_sleep_spinbutton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="adjustment">worker_sleep_adjustment</property>
+            <property name="digits">3</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">4</property>
+            <property name="bottom_attach">5</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
@@ -146,6 +173,11 @@
   </object>
   <object class="GtkAdjustment" id="limit_adjustment">
     <property name="lower">1</property>
+    <property name="upper">100000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="worker_sleep_adjustment">
     <property name="upper">100000</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>

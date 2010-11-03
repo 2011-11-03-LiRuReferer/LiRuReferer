@@ -15,7 +15,7 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import sys, os.path
+import sys, os.path, random
 import gtk
 
 from .short_history_buffer import ShortHistoryBuffer
@@ -38,6 +38,7 @@ class TaskWidget:
                 target_sites_list,
                 limit,
                 workers,
+                worker_sleep,
             ):
         self.main_window_ref = main_window_ref
         self.general_task_ctrl = general_task_ctrl
@@ -63,6 +64,8 @@ class TaskWidget:
             set_text(limit_msg.encode('utf-8'))
         self.builder.get_object('workers_spinbutton').\
             set_value(workers)
+        self.builder.get_object('worker_sleep_spinbutton').\
+            set_value(worker_sleep)
     
     def get_source_site(self):
         return self._source_site
@@ -76,6 +79,17 @@ class TaskWidget:
     def get_workers(self):
         widget = self.builder.get_object('workers_spinbutton')
         value = widget.get_value_as_int()
+        
+        return value
+    
+    def get_worker_sleep(self):
+        widget = self.builder.get_object('worker_sleep_spinbutton')
+        value = widget.get_value()
+        
+        if value:
+            # добавляем случайность
+            
+            value *= (0.5 + random.random())
         
         return value
     
@@ -162,6 +176,7 @@ class TaskWidget:
             open_cyclic_list(self.get_target_sites_list()),
             self.get_limit,
             self.get_workers,
+            self.get_worker_sleep,
             set_successes=self.set_successes,
             set_errors=self.set_errors,
             set_log=self.set_log,
