@@ -15,28 +15,62 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import functools
+import weakref, functools
+
+import glib
 
 class TaskCtrl:
     def __init__(self, parent=None):
-        self._is_active = True
-        self.parent = parent
+        self.immediate_stop_handlers = {}
+        self.stop_handlers = {}
+        
+        if parent is not None:
+            self.parent_ref = weakref.ref(parent)
+            self._is_active = bool(parent)
+            parent.connect('immediate_stop', self._parent_stop_handler)
+        else:
+            self.parent_ref = None
+            self._is_active = True
+    
+    def connect(self, event_name, handler, *args):
+        handler_id = object()
+        
+        if event_name == 'immediate_stop':
+            self.immediate_stop_handlers[handler_id] = handler, args
+        elif event_name == 'stop':
+            self.stop_handlers[handler_id] = handler, args
+        else:
+            raise NotImplementedError()
+        
+        return handler_id
+    
+    def disconnect(self, event_name, handler_id):
+        if event_name == 'immediate_stop':
+            del self.immediate_stop_handlers[handler_id]
+        elif event_name == 'stop':
+            del self.stop_handlers[handler_id]
+        else:
+            raise NotImplementedError() 
     
     def __nonzero__(self):
         """is task activity?"""
         
-        if self._is_active:
-            if self.parent is not None:
-                return bool(self.parent)
-            else:
-                return True
-        else:
-            return False
+        return self._is_active
     
     def stop(self):
         """stop activity"""
         
         self._is_active = False
+        
+        for handler, args in self.immediate_stop_handlers.values():
+            handler(self, *args)
+        
+        for handler, args in self.stop_handlers.values():
+            glib.idle_add(handler, self, *args)
+    
+    def _parent_stop_handler(self, sender):
+        if not self:
+            self.stop()
     
     def unstop(self):
         self._is_active = True
