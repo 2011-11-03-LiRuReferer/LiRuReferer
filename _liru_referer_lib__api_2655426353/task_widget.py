@@ -64,18 +64,6 @@ class TaskWidget:
         self.builder.get_object('workers_spinbutton').\
             set_value(workers)
     
-    def get_workers(self):
-        widget = self.builder.get_object('workers_spinbutton')
-        value = widget.get_value_as_int()
-        
-        return value
-    
-    def get_workers(self):
-        widget = self.builder.get_object('workers_spinbutton')
-        value = widget.get_value_as_int()
-        
-        return value
-    
     def get_source_site(self):
         return self._source_site
     
