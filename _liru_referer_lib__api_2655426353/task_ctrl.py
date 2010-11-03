@@ -69,7 +69,7 @@ class TaskCtrl:
             glib.idle_add(handler, self, *args)
     
     def _parent_stop_handler(self, sender):
-        if not self:
+        if self:
             self.stop()
     
     def unstop(self):
