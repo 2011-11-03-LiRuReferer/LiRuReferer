@@ -120,7 +120,7 @@ class TaskWidget:
                 # обычное наполнение log-виджета (оно быстрее чем постоянная синхронизация с <self.log_buffer>)
                 
                 end_iter = widget.get_end_iter()
-                widget.insert(end_iter, self.log_buffer.getvalue().encode('utf-8'))
+                widget.insert(end_iter, decor_value.encode('utf-8'))
             else:
                 # чистка log-виджета (чистка путём синхронизации с <self.log_buffer>)
                 widget.set_text(self.log_buffer.getvalue().encode('utf-8'))
