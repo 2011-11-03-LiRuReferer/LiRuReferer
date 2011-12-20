@@ -1,4 +1,6 @@
-#-*- coding: utf-8 -*-
+#-*- mode: python; coding: utf-8 -*-
+#
+# Copyright 2011 Andrej A Antonov <polymorphm@gmail.com>.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -14,6 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+
+assert str is not unicode
+assert str is bytes
 
 import glib, gtk
 
