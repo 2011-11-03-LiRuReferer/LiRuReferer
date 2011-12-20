@@ -3,3 +3,6 @@ __pycache__
 *.pyo
 /site-packages
 /test-site
+/dist
+/build
+MANIFEST
